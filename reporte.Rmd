@@ -79,8 +79,8 @@ graf1 <- ggplot(data = comunidad,
   theme_bw() +
   theme(legend.position = "bottom",
     plot.caption = element_text(hjust = 0)) +
-  scale_y_continuous(breaks = seq(-100, 100, by = 10), 
-                     labels = c(rev(seq(0, 100, by = 10)), seq(10, 100, by = 10))) +
+  scale_y_continuous(breaks = seq(-100, 100, by = 20), 
+                     labels = c(rev(seq(0, 100, by = 20)), seq(10, 100, by = 20))) +
   labs(
     y = "Porcentaje",
     x = "Grupos de edades")
@@ -94,8 +94,7 @@ graf2 <- ggplot(DF) + geom_boxplot(aes(gusto_flisol, edad, fill =sexo), alpha = 
 
 ```
 
-
-# Introducción  
+# Introducción
 
 Este es un informe de la presentacion usando ODK y R en el Flisol-Caribe 2021 en el uso de herramientas libres, en la recolecta y automatización de analisis de datos.
 
@@ -108,36 +107,30 @@ vemos nuestra area de estudio en la figura \@ref(fig:mapa)
 ```{r, fig.cap= "Area de estudio", fig.id = "mapa"}
 knitr::include_graphics("img/Rplot.png")
 ```
-\newpage
-## Metodos  
 
-Se diseño un formulario usando una plantilla de Excel siguiendo las especificaciones de [ODK's Docs](https://docs.getodk.org), la cual fue implementada en el servidor KoboToolbox y fueron descargados, limpiados y analizados usando @rcore y el paquete Tydiverse creado por @wickham_2019     
+## Metodos
 
-# Resultados  
+Se diseño un formulario usando una plantilla de Excel siguiendo las especificaciones de [ODK's Docs](https://docs.getodk.org), la cual fue implementada en el servidor KoboToolbox y fueron descargados, limpiados y analizados usando @rcore y el paquete Tydiverse creado por @wickham_2019
 
-Se obtuvieron un total de `r nrow(DF)` registros, ver tabla \@ref(tab:datos)  
+# Resultados
 
+Se obtuvieron un total de `r nrow(DF)` registros, ver tabla \@ref(tab:datos) y el primedio de edad de los participantes es de `r round(mean(DF$edad),2)` años
 
 ```{r,echo=FALSE, tab.cap="Tabla de datos", tab.id = "datos"}
 flextable::flextable(DF, cwidth = 1)
 
 ```
 
-
 y el grafico de resultados en la figura \@ref(fig:juntas)
-
 
 ```{r, fig.cap= "vemos dos figuras juntas A) Poblacion B) Boxplot ",  fig.id = "juntas"}
 (graf1 + graf2) + plot_annotation(tag_levels = "A")
 ```
 
-
-# Conclusión  
+# Conclusión
 
 Es muy práctico usar Rmarkdown
 
 \newpage
 
-# Bibliografía  
-
-
+# Bibliografía

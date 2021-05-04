@@ -24,6 +24,7 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 
 .pull-left[
 .center[![android](img/recolectar.png)]
+.center[![android](img/ODK.jpg)]
 ]
 
 .pull-right[
@@ -158,7 +159,11 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 
 .center[![](img/rmark.jpg)]
 ---
+QR
 
+.center[![](img/QR.jpg)]
+
+---
 
 class: center, middle, inverse, hide-logo
 background-size: 55px

@@ -1,29 +1,29 @@
 
-# url  https://kc.kobotoolbox.org/api/v1/library(tidyverse)
+# url  https://kc.kobotoolbox.org/api/v1/
+library(tidyverse)
 library(koboloadeR)
 library(leaflet)
 
-datos <- read.csv("https://kc.kobotoolbox.org/api/v1/data/650683?format=csv")
-
-datos <- curl::curl_download(url = "https://kc.kobotoolbox.org/api/v1/data/649050?format=csv", destfile = "datos.csv")
-
-install_github("mrdwab/koboloadeR")
+#install_github("mrdwab/koboloadeR")
 
 kobo_datasets("flisol_2021:flisol_2021") # Ver los proyectos
 
-kobo_submission_count("647865") # SAber el numero de observaciones subidos
-
+# kobo_data_downloader("codigo", "usuario:contraseña")
 kobo_data_downloader("650683", "flisol_2021:flisol_2021") # Importat el proyecto
-kobo_apps("app_name") # Ejecuta una Shiny app para cargar los datos
+
+# Ejecuta una Shiny app para cargar los datos
+#kobo_apps("app_name") 
 
 
 # creamos un data frame con las variables de interes y modificamos algunos nombres
+
 DF <- data_650683 %>% 
-  select(ultima_compra, nombre, edad,sexo, gusto_flisol, "_ubicacion_latitude", "_ubicacion_longitude") %>% 
+  select(ultima_compra, nombre, edad,sexo, gusto_flisol, "_ubicacion_latitude",
+         "_ubicacion_longitude") %>% 
   rename(latitud = "_ubicacion_latitude" , longitud = "_ubicacion_longitude")
 
 
-# Mapa --------------------------------------------------------------------
+# Mapa interactivo --------------------------------------------------------------------
 
 
 leaflet() %>% addTiles() %>% addCircleMarkers(data = DF, lng = DF$longitud, lat = DF$latitud, 
@@ -33,32 +33,47 @@ leaflet() %>% addTiles() %>% addCircleMarkers(data = DF, lng = DF$longitud, lat 
                                           toggleDisplay = TRUE)
 
 
-hombres <- DF %>% select(edad, sexo) %>%  filter(sexo == "Hombre") %>% mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
-                                                                         edad >= 11 & edad <=20 ~ "11-20",
-                                                                         edad >= 21 & edad <=40 ~ "21-30",
-                                                                         edad >= 31 & edad <=40 ~ "31-40",
-                                                                         edad >= 41 & edad <=50 ~ "41-50",
-                                                                         edad >= 51 & edad <=60 ~ "51-60",
-                                                                         edad >= 61 & edad <=70 ~ "61-70",
-                                                                         edad >= 71 & edad <=80 ~ "71-80",
-                                                                         edad >= 81 & edad <=90 ~ "81-90",
-                                                                         edad >= 91 & edad <=100 ~ "91-100"
-)) %>% group_by(Grupos) %>% summarise(numero = n()) %>% 
-  mutate(porcentaje = round((numero/sum(numero))*100,2)*-1) %>% mutate(sexo = "Hombres")
+# Graficos ----------------------------------------------------------------
 
-mujer <- DF %>% select(edad, sexo) %>%  filter(sexo == "Mujer") %>% mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
-                                                                         edad >= 11 & edad <=20 ~ "11-20",
-                                                                         edad >= 21 & edad <=40 ~ "21-30",
-                                                                         edad >= 31 & edad <=40 ~ "31-40",
-                                                                         edad >= 41 & edad <=50 ~ "41-50",
-                                                                         edad >= 51 & edad <=60 ~ "51-60",
-                                                                         edad >= 61 & edad <=70 ~ "61-70",
-                                                                         edad >= 71 & edad <=80 ~ "71-80",
-                                                                         edad >= 81 & edad <=90 ~ "81-90",
-                                                                         edad >= 91 & edad <=100 ~ "91-100"
-)) %>% group_by(Grupos) %>% summarise(numero = n()) %>% 
-  mutate(porcentaje = round((numero/sum(numero))*100,2)) %>% mutate(sexo = "Mujeres")
+#Grafico de piramide de poblacion
 
+# Transformamos los datos
+
+hombres <- DF %>% select(edad, sexo) %>%  
+  filter(sexo == "Hombre") %>% 
+  mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
+   edad >= 11 & edad <=20 ~ "11-20",
+   edad >= 21 & edad <=40 ~ "21-30",
+   edad >= 31 & edad <=40 ~ "31-40",
+   edad >= 41 & edad <=50 ~ "41-50",
+   edad >= 51 & edad <=60 ~ "51-60",
+   edad >= 61 & edad <=70 ~ "61-70",
+   edad >= 71 & edad <=80 ~ "71-80",
+   edad >= 81 & edad <=90 ~ "81-90",
+   edad >= 91 & edad <=100 ~ "91-100")) %>% 
+  group_by(Grupos) %>% 
+  summarise(numero = n()) %>% 
+  mutate(porcentaje = round((numero/sum(numero))*100,2)*-1) %>% 
+  mutate(sexo = "Hombres")
+
+mujer <- DF %>% select(edad, sexo) %>% 
+  filter(sexo == "Mujer") %>% 
+  mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
+   edad >= 11 & edad <=20 ~ "11-20",
+   edad >= 21 & edad <=40 ~ "21-30",
+   edad >= 31 & edad <=40 ~ "31-40",
+   edad >= 41 & edad <=50 ~ "41-50",
+   edad >= 51 & edad <=60 ~ "51-60",
+   edad >= 61 & edad <=70 ~ "61-70",
+   edad >= 71 & edad <=80 ~ "71-80",
+   edad >= 81 & edad <=90 ~ "81-90",
+   edad >= 91 & edad <=100 ~ "91-100")) %>% 
+  group_by(Grupos) %>% 
+  summarise(numero = n()) %>% 
+  mutate(porcentaje = round((numero/sum(numero))*100,2)) %>% 
+  mutate(sexo = "Mujeres")
+
+#Los juntamos
 comunidad <- bind_rows(hombres, mujer)
 
 
