@@ -159,7 +159,7 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 
 .center[![](img/rmark.jpg)]
 ---
-QR
+# QR
 
 .center[![](img/QR.jpg)]
 
@@ -173,9 +173,9 @@ background-position: 9% 15%
 
 ### Esta presentacion ha sido creada con [xaringan](https://github.com/yihui/xaringan) y [R Markdown](https://rmarkdown.rstudio.com/)
 
-`r icon::fa("envelope")`**dafealos@gmail.com**  
-`r icon::fa("home")`[**https://dafealos.netlify.app**](https://dafealos.netlify.app)  
-`r icon::fa_twitter()`[**@dafealos**](https://twitter.com/dafealos)  
+**dafealos@gmail.com**  
+[**https://dafealos.netlify.app**](https://dafealos.netlify.app)  
+[**@dafealos**](https://twitter.com/dafealos)  
 
 ---
 

@@ -4,7 +4,7 @@ library(tidyverse)
 library(koboloadeR)
 library(leaflet)
 
-#install_github("mrdwab/koboloadeR")
+#devtools::install_github("mrdwab/koboloadeR")
 
 kobo_datasets("flisol_2021:flisol_2021") # Ver los proyectos
 
@@ -101,10 +101,5 @@ ggplot(data = comunidad,
 ggplot(DF) + geom_boxplot(aes(gusto_flisol, edad, fill =sexo )) + 
   labs(x="Gusto a Flisol", y = "Edades", title = "Diagrama de caja") + theme_bw() +
   theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
-
-
-
-
-
 
 
