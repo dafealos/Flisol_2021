@@ -161,7 +161,8 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 ---
 # QR
 
-.center[![](img/QR.jpg)]
+.center[<img src="img/QR.jpg" alt="drawing" width="450"/>]
+
 
 ---
 
