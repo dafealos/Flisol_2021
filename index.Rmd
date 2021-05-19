@@ -91,7 +91,7 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 <br />
 <br />
 <h1>    Servidores</h1>
-
+<A HREF="https://docs.getodk.org/form-design-intro/"> ODK Docs </A>
 </p>
 ]
 
@@ -143,7 +143,10 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 
 - Es un lenguaje de programación muy sencillo  
 
-- Usado principalmente en la investigacón cientifica
+- Usado principalmente en la investigacón cientifica  
+
+- Otros [usos](https://cran.r-project.org/web/views/)  
+
 - Posee una interface de usuario muy potente e intuitiva (Rstudio)
 
 .center[![](img/rstudio-og.png)]
@@ -151,11 +154,11 @@ Es un software gratuito y de código abierto para recopilar, gestionar y utiliza
 
 # Rmarkdown
 
-- R Markdown es un formato que permite una fácil creación de documentos, presentaciones dinámicas y informes de R.  
+- [R Markdown](https://rmarkdown.rstudio.com) es un formato que permite una fácil creación de documentos, presentaciones dinámicas y informes de R.  
 
 - Los archivos para producir documentos R Markdown tienen extensión **.Rmd**  
 
-- El resultado es un documento en formato **.pdf**, **.html**, o **.doc**
+- El resultado es un documento en formato **.pdf**, **.html**, o **.docx**
 
 .center[![](img/rmark.jpg)]
 ---

@@ -2,14 +2,22 @@
 # url  https://kc.kobotoolbox.org/api/v1/
 library(tidyverse)
 library(koboloadeR)
+library(raster)
 library(leaflet)
+library(sf)
+library(osmdata)
+library(rworldxtra)
+library(cowplot)
+library(ggspatial)
+library(tmap)
 
+# instalar desde GitHub
 #devtools::install_github("mrdwab/koboloadeR")
 
 kobo_datasets("flisol_2021:flisol_2021") # Ver los proyectos
 
 # kobo_data_downloader("codigo", "usuario:contraseña")
-kobo_data_downloader("650683", "flisol_2021:flisol_2021") # Importat el proyecto
+kobo_data_downloader(formid = 650683, "flisol_2021:flisol_2021", check = F) # Importat el proyecto
 
 # Ejecuta una Shiny app para cargar los datos
 #kobo_apps("app_name") 
@@ -31,6 +39,49 @@ leaflet() %>% addTiles() %>% addCircleMarkers(data = DF, lng = DF$longitud, lat 
                                         clusterOptions = markerClusterOptions()) %>% addMiniMap(
                                           tiles = providers$Esri.WorldStreetMap,
                                           toggleDisplay = TRUE)
+# Obteniendo mapa de colombia
+data("countriesHigh")
+Mundo <- st_as_sf(countriesHigh)
+colombia <- Mundo %>%  dplyr::select(ne_10m_adm) %>% filter(ne_10m_adm=="COL")
+
+#Mapa de costa caribe
+departamentos <- getData('GADM', country='COL', level=1)
+departamentos <- st_as_sf(departamentos)
+caribe <- departamentos %>% dplyr::filter(NAME_1 == "Atlántico" | NAME_1 == "Bolívar" | 
+                                            NAME_1 == "Magdalena" | NAME_1 == "Sucre" |
+                                            NAME_1 ==  "Córdoba" | NAME_1 == "Cesar" |
+                                            NAME_1 == "La Guajira")
+
+
+puntos <- st_as_sf(DF, coords = c(7,6), crs = "+proj=longlat +datum=WGS84")
+
+box <- st_as_sfc(st_bbox(caribe))
+
+# Macrolocalizacion
+
+mapa_1 <- ggplot() + geom_sf(data = colombia, fill = "white") + 
+  geom_sf(data = box, fill = NA, color= "red") + 
+  ggtitle("Macrolocalizacion") +
+  theme_bw() + theme(panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.text.y = element_blank(),
+                     plot.title = element_text(hjust = 0.5, size = 7))
+
+#Mapa region caribe
+mapa_2 <- ggplot()  +
+  geom_sf(data = caribe) +
+  geom_sf(data = puntos, aes(color = sexo)) + 
+  annotation_north_arrow(location ="tl",
+                         which_north ="true",
+                         style = north_arrow_fancy_orienteering()) +
+  annotation_scale(location = "br") + 
+  scale_color_manual(values = c("blue", "red")) +  theme_bw() + xlab(NULL) + ylab(NULL)
+
+# Juntamos los mapas
+mapa_final <- ggdraw() + 
+  draw_plot(mapa_2) +
+  draw_plot(mapa_1, x=0.5, y= 0.17, width=0.3, height=0.28)
 
 
 # Graficos ----------------------------------------------------------------
