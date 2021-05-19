@@ -26,7 +26,7 @@ kobo_data_downloader(formid = 650683, "flisol_2021:flisol_2021", check = F) # Im
 # creamos un data frame con las variables de interes y modificamos algunos nombres
 
 DF <- data_650683 %>% 
-  select(ultima_compra, nombre, edad,sexo, gusto_flisol, "_ubicacion_latitude",
+  dplyr::select(ultima_compra, nombre, edad,sexo, gusto_flisol, "_ubicacion_latitude",
          "_ubicacion_longitude") %>% 
   rename(latitud = "_ubicacion_latitude" , longitud = "_ubicacion_longitude")
 
@@ -90,7 +90,7 @@ mapa_final <- ggdraw() +
 
 # Transformamos los datos
 
-hombres <- DF %>% select(edad, sexo) %>%  
+hombres <- DF %>% dplyr::select(edad, sexo) %>%  
   filter(sexo == "Hombre") %>% 
   mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
    edad >= 11 & edad <=20 ~ "11-20",
@@ -107,7 +107,7 @@ hombres <- DF %>% select(edad, sexo) %>%
   mutate(porcentaje = round((numero/sum(numero))*100,2)*-1) %>% 
   mutate(sexo = "Hombres")
 
-mujer <- DF %>% select(edad, sexo) %>% 
+mujer <- DF %>% dplyr::select(edad, sexo) %>% 
   filter(sexo == "Mujer") %>% 
   mutate(Grupos = case_when(edad >= 0 & edad <=10 ~ "0-10",
    edad >= 11 & edad <=20 ~ "11-20",

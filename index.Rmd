@@ -1,7 +1,7 @@
 ---
 title: "Recolección de Datos en campo con ODK y automatización de reportes con R"
 author: "I. A. Daniel Alvarado"
-date: "`r Sys.Date()`"
+date: "22-mayo-2021"
 output:
   xaringan::moon_reader:
     includes:
